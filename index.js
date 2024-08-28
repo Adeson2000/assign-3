@@ -1,47 +1,51 @@
-
 const http = require('http');
 const fs = require('fs');
 
 
-const PORT = 5500;
-
-
 const server = http.createServer((req, res) => {
+    const url = req.url;
 
-    if (req.url === '/' && req.method === 'GET') {
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end('This is the Home Page');
+    // Home Page Route
+    if (url === '/') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.write('This is the Home Page');
+        res.end();
     }
-
-    else if (req.url === '/about' && req.method === 'GET') {
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end('This is the About Page');
+    // About Page Route
+    else if (url === '/about') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.write('This is the About Page');
+        res.end();
     }
-
-    else if (req.url === '/contact' && req.method === 'GET') {
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end('This is the Contact Page');
+    // Contact Page Route
+    else if (url === '/contact') {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.write('This is the Contact Page');
+        res.end();
     }
-
-    else if (req.url === '/file-write' && req.method === 'GET') {
+    // File Write Route
+    else if (url === '/file-write') {
         fs.writeFile('demo.txt', 'hello world', (err) => {
             if (err) {
-                res.writeHead(500, {'Content-Type': 'text/plain'});
-                res.end('Error writing file');
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.write('Failed to write file');
+                res.end();
             } else {
-                res.writeHead(200, {'Content-Type': 'text/plain'});
-                res.end('File created successfully');
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                res.write('File has been written successfully');
+                res.end();
             }
         });
     }
 
     else {
-        res.writeHead(404, {'Content-Type': 'text/plain'});
-        res.end('404 Not Found');
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.write('404 - Page Not Found');
+        res.end();
     }
 });
 
-
+// Server listen
 server.listen(5500, () => {
-    console.log(`Server is listening on port ${5500}`);
+    console.log('Server is listening on port 5500');
 });
